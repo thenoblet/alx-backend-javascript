@@ -1,5 +1,7 @@
-export default class ClassRoom{
-	constructor(maxStudentsSize){
-		self._maxStudentsSize = maxStudentsSize;
-	}
+/* eslint-disable */
+
+export default class ClassRoom {
+  constructor(maxStudentsSize) {
+    this._maxStudentsSize = maxStudentsSize;
+  }
 }
