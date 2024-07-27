@@ -18,10 +18,12 @@ function getCurrentYear() {
  * @returns {Object} An object containing the income, GDP, and GDP per capita for the current year.
  */
 export default function getBudgetForCurrentYear(income, gdp, capita) {
+  const currentYear = getCurrentYear();
+
   const budget = {
-    [`income-${getCurrentYear()}`]: income,
-    [`gdp-${getCurrentYear()}`]: gdp,
-    [`capita-${getCurrentYear()}`]: capita,
+    [`income-${currentYear}`]: income,
+    [`gdp-${currentYear}`]: gdp,
+    [`capita-${currentYear}`]: capita,
   };
 
   return budget;
