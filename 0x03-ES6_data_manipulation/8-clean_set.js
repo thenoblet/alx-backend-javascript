@@ -8,7 +8,7 @@
  * @returns {String} - A string of all the values that start with startString, joined by hyphens.
  */
 export default function cleanSet(set, startString) {
-  if (typeof startString !== 'string' || startString === '') {
+  if (typeof startString !== 'string' || startString === '' || startString.length === 0) {
     return '';
   }
 
