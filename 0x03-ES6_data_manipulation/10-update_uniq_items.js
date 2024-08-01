@@ -8,7 +8,7 @@
 export default function updateUniqueItems(map) {
   // Check if the argument is a Map
   if (!(map instanceof Map)) {
-    throw new Error('The provided argument is not a valid Map.');
+    throw new Error('Cannot process');
   }
 
   // Iterate over the map and update quantities
