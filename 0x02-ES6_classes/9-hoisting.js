@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * Represents a HolbertonClass.
  * @class

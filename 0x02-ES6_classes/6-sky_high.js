@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Building from './5-building';
 
 const privateData = new WeakMap();
