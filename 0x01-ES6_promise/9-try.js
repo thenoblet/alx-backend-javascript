@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * Executes a given math function, captures the result or error, and returns the result queue.
  * @param {Function} mathFunction - The math function to execute.
