@@ -15,7 +15,7 @@ import uploadPhoto from './5-photo-reject';
 export default async function handleProfileSignup(firstName, lastName, fileName) {
   const handlePromise = (promise) => promise
     .then((result) => ({ status: 'fulfilled', value: result }))
-    .catch((error) => ({ status: 'rejected', error: `Error: ${error.message}` }));
+    .catch((error) => ({ status: 'rejected', value: `Error: ${error.message}` }));
 
   const promises = [
     handlePromise(signUpUser(firstName, lastName)),
