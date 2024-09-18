@@ -1,64 +1,49 @@
-#!/usr/bin/env node
-/* eslint-disable */
-
 const express = require('express');
+const countStudents = require('./3-read_file_async');
 
-const { summarizeStudentInfoByMajor } = require('./utils');
+const args = process.argv.slice(2); 
 
-const app = express();
-const port = 1245;
-
-const dbFile = process.argv[2];
-const studentMajors = ['CS', 'SWE'];
+const app = express(); // Create an Express application
+const DATABASE = args[0]; // The database file path passed as a command-line argument
+const PORT = 1245; // Define the port on which the server will run
 
 /**
- * Handles GET requests to the root path ('/').
- * 
- * Responds with a plain text message: 'Hello Holberton School!'.
- * 
- * @function
- * @param {express.Request} req - The request object.
- * @param {express.Response} res - The response object.
+ * Route handler for the root endpoint ('/').
+ *
+ * Responds with a simple greeting message: "Hello Holberton School!".
+ *
+ * @param {express.Request} req - The incoming HTTP request object.
+ * @param {express.Response} res - The HTTP response object used to send the response.
  */
 app.get('/', (req, res) => {
-  res.send('Hello Holberton School!');
+  res.send('Hello Holberton School!'); // Sends a text response to the client
 });
 
 /**
- * Handles GET requests to the '/students' path.
- * 
- * Retrieves and responds with student information based on the majors provided.
- * Uses the `summarizeStudentInfoByMajor` function to get the student data.
- * 
- * On success, responds with a list of students and the total number.
- * On failure, responds with a 500 status code and an error message.
- * 
- * @function
- * @param {express.Request} req - The request object.
- * @param {express.Response} res - The response object.
+ * Route handler for the '/students' endpoint.
+ *
+ * Responds with the list of students loaded from a CSV file (database).
+ * The list is returned as a plain text response. If the database cannot be loaded,
+ * an error message is sent back instead.
+ *
+ * @param {express.Request} req - The incoming HTTP request object.
+ * @param {express.Response} res - The HTTP response object used to send the response.
  */
-app.get('/students', (req, res) => {
-  summarizeStudentInfoByMajor(dbFile, studentMajors)
-    .then(([studentsInfo, totalNumber]) => {
-      res.send('This is the list of our students\n'
-        + `Number of students: ${totalNumber}\n`
-        + `${studentsInfo}`);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send('Cannot load the database');
-    });
+app.get('/students', async (req, res) => {
+  const msg = 'This is the list of our students\n'; // Initial message
+  try {
+    const students = await countStudents(DATABASE); // Await the students list from the file
+    res.send(`${msg}${students.join('\n')}`); // Send the student list as response
+  } catch (error) {
+    res.send(`${msg}${error.message}`); // If error occurs, send the error message
+  }
 });
 
 /**
- * Starts the Express server and listens on the specified port.
- * 
- * Logs a message to the console when the server starts listening.
- * 
- * @function
+ * Starts the Express server and listens on the specified port (1245).
+ *
+ * Once the server is successfully running, it will be accessible on the defined port.
  */
-app.listen(port, () => {
-  console.log(`The server is listening on port ${port}`);
-});
+app.listen(PORT); // Start the server on PORT 1245
 
-module.exports = app;
+module.exports = app; // Export the Express application instance for external use
