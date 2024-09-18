@@ -1,11 +1,10 @@
 #!/usr/bin/env node
-/* eslint-disable */
 
 const http = require('http');
 const { summarizeStudentInfoByMajor } = require('./utils');
 
 const dbFile = process.argv[2];
-const majors = ['CS', 'SWE'];
+const studentMajors = ['CS', 'SWE'];
 
 const hostname = '127.0.0.1';
 const port = 1245;
@@ -28,29 +27,24 @@ const app = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'text/plain');
 
   if (req.url === '/') {
-	  res.end('Hello Holberton School!');
+    res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
-	  summarizeStudentInfoByMajor(dbFile, majors)
+    summarizeStudentInfoByMajor(dbFile, studentMajors)
       .then(([studentsInfo, totalNumber]) => {
-		  res.write('This is the list of our students\n');
-		  res.write(`Number of students: ${totalNumber}\n`);
-		  res.end(studentsInfo);
+        res.write('This is the list of our students\n');
+        res.write(`Number of students: ${totalNumber}\n`);
+        res.end(studentsInfo);
       })
       .catch(() => {
-		  res.statusCode = 500;
-		  res.end('Internal Server Error');
+        res.statusCode = 500;
+        res.end('Internal Server Error');
       });
-  } else {
-	  res.statusCode = 404;
-	  res.end('Not Found');
+  } else { // For all other endpoints not implemented, let's return 404
+    res.statusCode = 404;
+    res.end('Not Found');
   }
 });
 
-/**
- * Starts the HTTP server and logs the server address to the console.
- *
- * @function
- */
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
